@@ -38,6 +38,19 @@ class App extends Component {
 
     const accounts = await web3.eth.getAccounts();
     this.setState({ account: accounts[0] });
+
+    const networkId = await web3.eth.net.getId();
+    const networkData = await Decentragram.networks[networkId];
+    if (networkData) {
+      const decentragram = web3.eth.Contract(
+        Decentragram.abi,
+        networkData.address
+      );
+    } else {
+      alert(
+        'Decentragram contract has not been loaded to the attached network'
+      );
+    }
   }
 
   render() {
