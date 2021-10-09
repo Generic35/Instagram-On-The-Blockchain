@@ -40,7 +40,10 @@ class Main extends Component {
                     required
                   />
                 </div>
-                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-block btn-lg"
+                >
                   Upload!
                 </button>
               </form>
