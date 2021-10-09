@@ -12,6 +12,9 @@ class App extends Component {
     super(props);
     this.state = {
       account: '',
+      decentragram: null,
+      images: [],
+      loading: true,
     };
   }
 
@@ -46,12 +49,28 @@ class App extends Component {
         Decentragram.abi,
         networkData.address
       );
+      this.setState({ decentragram });
+      const imagesCount = await decentragram.methods.imageCount.call();
+      // this.setState({ imagesCount })
+      this.setState({ loading: false });
     } else {
       alert(
         'Decentragram contract has not been loaded to the attached network'
       );
     }
   }
+
+  captureFile = (event) => {
+    event.preventDefault();
+    const file = event.target.files[0];
+    const reader = new window.FileReader();
+    reader.readAsArrayBuffer(file);
+
+    reader.onloadend = () => {
+      this.setState({ buffer: Buffer(reader.result) });
+      console.log('buffer', this.state.buffer);
+    };
+  };
 
   render() {
     return (
@@ -62,9 +81,7 @@ class App extends Component {
             <p>Loading...</p>
           </div>
         ) : (
-          <Main
-          // Code...
-          />
+          <Main captureFile={this.captureFile} />
         )}
       </div>
     );
